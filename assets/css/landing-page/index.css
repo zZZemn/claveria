@@ -1,0 +1,27 @@
+/*  */
+.backgound-image-section {
+    height: calc(50vh - 50px);
+    position: relative;
+  }
+  
+  .backgound-image-section img {
+    max-height: 100%;
+    width: 100%;
+    opacity: 0.1;
+  }
+  
+  .main-page-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 3px black;
+  }
+  
+  .main-page-text p {
+    font-size: 20px;
+  }
+  /*  */
