@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/landing-page/nav.css">
     <link rel="stylesheet" href="assets/css/landing-page/index.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/login-signin/login-sign-in.css">
 </head>
 
 <body class="bg-light">
@@ -16,8 +18,8 @@
         <nav class="d-flex justify-content-between align-items-center">
             <a href="#"><img class="logo" src="assets/CBTIMS LOGO.png"></a>
             <div>
-                <a href="Home"><i class="bi bi-house"></i> Home</a>
-                <a href="Home"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                <a href="Home"><i class="bi bi-person-add"></i> Sign in</a>
+                <a href="index.php"><i class="bi bi-house"></i> Home</a>
+                <a href="login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                <a href="signin.php"><i class="bi bi-person-add"></i> Sign in</a>
             </div>
         </nav>

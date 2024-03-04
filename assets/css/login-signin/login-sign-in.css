@@ -1,0 +1,10 @@
+.login-main-container {
+  width: 300px;
+}
+.login-input-container input {
+  width: 250px;
+}
+
+.sign-in-main-container {
+  max-width: 500px;
+}
