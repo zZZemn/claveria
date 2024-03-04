@@ -14,7 +14,7 @@
 <body class="bg-light">
     <main>
         <nav class="d-flex justify-content-between align-items-center">
-            <a href="#">Logo</a>
+            <a href="#"><img class="logo" src="assets/CBTIMS LOGO.png"></a>
             <div>
                 <a href="Home"><i class="bi bi-house"></i> Home</a>
                 <a href="Home"><i class="bi bi-box-arrow-in-right"></i> Login</a>
