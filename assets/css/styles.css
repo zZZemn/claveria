@@ -1,20 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Alert */
+.alert {
+  position: absolute;
+  top: 20px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 /* Input Field Label on Top */
 .input-container {
-    position: relative;
-    padding-bottom: 20px;
+  position: relative;
+  padding-bottom: 20px;
 }
 
 .input-container label {
-    position: absolute;
-    top: -7px;
-    left: 20px;
-    font-size: 12px;
-    background-color: white;
-    padding: 0 10px;
+  position: absolute;
+  top: -7px;
+  left: 20px;
+  font-size: 12px;
+  background-color: white;
+  padding: 0 10px;
 }
 
 .invalid-feedback {
-    font-size: 10px;
-    position: absolute;
+  font-size: 10px;
+  position: absolute;
 }
 /* Input Field Label on Top */

@@ -23,3 +23,4 @@
                 <a href="signin.php"><i class="bi bi-person-add"></i> Sign in</a>
             </div>
         </nav>
+        <div class="alert"></div>

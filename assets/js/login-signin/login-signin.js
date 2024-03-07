@@ -1,4 +1,11 @@
 $(document).ready(function () {
+  const showAlert = (alertType, message) => {
+    $(".alert").addClass(alertType).text(message);
+    setTimeout(() => {
+      $(".alert").removeClass(alertType).text("");
+    }, 2000);
+  };
+
   $("#frmLogin").submit(function (e) {
     e.preventDefault();
     var username = $("#username").val();
@@ -10,6 +17,33 @@ $(document).ready(function () {
 
     if (password.trim() === "") {
       $("#password").addClass("is-invalid");
+    }
+
+    if (
+      !$("#username").hasClass("is-invalid") &&
+      !$("#password").hasClass("is-invalid")
+    ) {
+      $.ajax({
+        type: "POST",
+        url: "backend/endpoints/global/login.php",
+        data: {
+          username: username,
+          password: password,
+        },
+        success: function (response) {
+          if (response == "200") {
+            showAlert("alert-success", "Login Success!");
+            setTimeout(() => {
+              window.location.href = "login-success.php";
+            }, 2000);
+          } else {
+            showAlert("alert-danger", "Incorrect Username or Password!");
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
     }
   });
 
