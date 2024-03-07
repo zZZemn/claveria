@@ -65,6 +65,23 @@ main {
   position: absolute;
 }
 
+#page-title {
+  color: #0441c0;
+}
+
+/* routes */
+.table-container {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.table-container thead {
+  position: sticky;
+  top: 0;
+}
+/* routes */
+
 @media screen and (max-width: 900px) {
   main {
     width: 100vw;

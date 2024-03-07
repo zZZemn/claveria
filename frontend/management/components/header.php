@@ -31,6 +31,7 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
 </head>
 
 <body>
+    <div class="alert"></div>
     <nav class="d-flex justify-content-between align-items-center p-3">
         <div class="d-flex align-items-center">
             <button id="toggleSideBar" class="btn text-light"><i class="bi bi-list"></i></button>
@@ -41,7 +42,8 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
     <aside class="side-bar">
         <ul>
             <li><a href="booking.php" id="nav-booking"><i class="bi bi-pen"></i> Booking</a></li>
-            <li><a href="routes.php" id="nav-routes"><i class="bi bi-geo-alt"></i> Routes</a></li>
+            <li><a href="routes-shedules.php" id="nav-routes-schedules"><i class="bi bi-calendar-date"></i> Routes Schedules</a></li>
+            <li><a href="routes.php" id="nav-routes"><i class="bi bi-geo-fill"></i> Routes</a></li>
             <li><a href="#" id="nav-announcement"><i class="bi bi-megaphone"></i> Announcements</a></li>
             <li><a href="#" id="nav-sales-report"><i class="bi bi-receipt"></i> Sales Report</a></li>
         </ul>
