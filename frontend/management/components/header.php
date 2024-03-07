@@ -32,14 +32,18 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
 
 <body>
     <nav class="d-flex justify-content-between align-items-center p-3">
-        <a href="management.php"><img class="logo" src="../../assets/CBTIMS LOGO.png" alt="Logo"></a>
+        <div class="d-flex align-items-center">
+            <button id="toggleSideBar" class="btn text-light"><i class="bi bi-list"></i></button>
+            <a href="management.php"><img class="logo" src="../../assets/CBTIMS LOGO.png" alt="Logo"></a>
+        </div>
         <a href="../../logout.php" class="btn-logout text-light text-decoration-none"><i class="bi bi-box-arrow-left"></i> Log Out</a>
     </nav>
     <aside class="side-bar">
         <ul>
-            <li><a href="#" id="nav-booking"><i class="bi bi-pen"></i> Booking</a></li>
-            <li><a href="#" id="nav-routes"><i class="bi bi-geo-alt"></i> Routes</a></li>
+            <li><a href="booking.php" id="nav-booking"><i class="bi bi-pen"></i> Booking</a></li>
+            <li><a href="routes.php" id="nav-routes"><i class="bi bi-geo-alt"></i> Routes</a></li>
             <li><a href="#" id="nav-announcement"><i class="bi bi-megaphone"></i> Announcements</a></li>
             <li><a href="#" id="nav-sales-report"><i class="bi bi-receipt"></i> Sales Report</a></li>
         </ul>
     </aside>
+    <main class="p-3">

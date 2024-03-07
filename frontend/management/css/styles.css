@@ -3,6 +3,11 @@ nav {
   height: 60px;
 }
 
+#toggleSideBar {
+  font-size: 30px;
+  display: none;
+}
+
 .logo {
   height: 40px;
   width: 40px;
@@ -13,6 +18,7 @@ nav {
   box-shadow: 1px 1px 5px rgb(187, 187, 187);
   width: 250px;
   height: calc(100vh - 60px);
+  transition: all 0.3s;
 }
 
 .side-bar ul {
@@ -49,4 +55,28 @@ nav {
 
 .side-bar ul li a i {
   margin-right: 20px;
+}
+
+main {
+  width: calc(100vw - 250px);
+  height: calc(100vh - 60px);
+  top: 60px;
+  right: 0;
+  position: absolute;
+}
+
+@media screen and (max-width: 900px) {
+  main {
+    width: 100vw;
+    left: 0;
+    z-index: 20;
+  }
+  .side-bar {
+    position: absolute !important;
+    z-index: 21;
+  }
+
+  #toggleSideBar {
+    display: block;
+  }
 }
