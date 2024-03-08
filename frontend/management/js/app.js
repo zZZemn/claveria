@@ -112,5 +112,30 @@ $(document).ready(function () {
     });
   });
 
+  // --------------------------
+  $("#frmAddAnnouncement").submit(function (e) {
+    e.preventDefault();
+    // var title = $("#addAnnouncementTitle").val();
+    // var text = $("#addAnnouncementText").val();
+
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Announcement Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });

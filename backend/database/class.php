@@ -121,4 +121,28 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+    // Announcement
+    public function getAnnouncement()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `announ`");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function addAnnouncement($post)
+    {
+        $id = $this->generateId('ANCMNT', 4);
+        while ($this->checkGeneratedId('announ', 'announ_id', $id)->num_rows > 0) {
+            $id = $this->generateId('ANCMNT', 4);
+        }
+
+        $query = $this->conn->prepare("INSERT INTO `announ`(`announ_id`, `title`, `text`, `status`) 
+                                                    VALUES ('$id','" . $post['title'] . "','" . $post['text'] . "','1')");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
