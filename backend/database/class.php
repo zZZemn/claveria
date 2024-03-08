@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include('db.php');
 date_default_timezone_set('Asia/Manila');
 
@@ -44,6 +46,47 @@ class global_class extends db_connect
             $result = $query->get_result();
             return $result;
         }
+    }
+
+    public function signIn($post, $file)
+    {
+        $accountId = $this->generateId("ACC", 8);
+        while ($this->checkGeneratedId("accounts", "acc_id", $accountId)->num_rows > 0) {
+            $accountId = $this->generateId("ACC", 8);
+        }
+
+        $query = $this->conn->prepare("INSERT INTO `accounts`(`acc_id`, `acc_type`, `username`, `password`, `name`, `address`, `email`, `contact_no`, `valid_id`, `status`) VALUES ('$accountId','passenger','" . $post['username'] . "','" . $post['password'] . "','" . $post['name'] . "','" . $post['address'] . "','" . $post['email'] . "','" . $post['contact_no'] . "','','active')");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        } else {
+            return "Hoyy";
+        }
+
+        // if (!empty($_FILES['validId']['size'])) {
+        //     $file_name = $file['name'];
+        //     $file_tmp = $file['tmp_name'];
+        //     $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+        //     $destinationDirectory = realpath(__DIR__ . '/../valid-id/') . '/';
+        //     $newFileName = $accountId . '.' . $extension;
+        //     $destination = $destinationDirectory . $newFileName;
+        //     if (is_uploaded_file($file_tmp)) {
+        //         if (move_uploaded_file($file_tmp, $destination)) {
+        //             $query = $this->conn->prepare("INSERT INTO `accounts`(`acc_id`, `acc_type`, `username`, `password`, `name`, `address`, `email`, `contact_no`, `valid_id`, `status`) 
+        //                                           VALUES ('$accountId','passenger','" . $post['username'] . "','" . $post['password'] . "','" . $post['name'] . "','" . $post['address'] . "','" . $post['email'] . "','" . $post['contact_no'] . "','$newFileName','active')");
+        //             if ($query->execute()) {
+        //                 $result = $query->get_result();
+        //                 return $result;
+        //             }
+        //         } else {
+        //             return $destination;
+        //         }
+        //     } else {
+        //         return "Error: File upload failed or file not found.";
+        //     }
+        // } else {
+        //     return 'File is empty';
+        // }
     }
 
     // routes
