@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/landing-page/index.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/login-signin/login-sign-in.css">
+    <link rel="shortcut icon" href="assets/CBTIMS LOGO.png" type="image/x-icon">
 </head>
 
 <body class="bg-light">

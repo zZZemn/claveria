@@ -86,7 +86,6 @@ main {
   main {
     width: 100vw;
     left: 0;
-    z-index: 20;
   }
   .side-bar {
     position: absolute !important;
