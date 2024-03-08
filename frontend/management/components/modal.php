@@ -81,3 +81,68 @@
     </div>
 </div>
 <!-- End of Add Route Schedule -->
+
+
+<!-- Add Route -->
+<div class="modal fade" id="AddRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Route</h5>
+                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddRoute">
+                    <div class="input-container">
+                        <label for="addROrigin">Origin</label>
+                        <input type="text" id="addROrigin" name="origin" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addRDestination">Destination</label>
+                        <input type="text" id="addRDestination" name="destination" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addRFare">Fare</label>
+                        <input type="number" id="addRFare" name="fare" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="submitType" value="AddRoute">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="Submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Add Route -->
+
+<!-- Add Bus -->
+<div class="modal fade" id="AddBus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Bus</h5>
+                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddBus">
+                    <div class="input-container">
+                        <label for="addBusPlateNumber">Plate Number</label>
+                        <input type="text" id="addBusPlateNumber" name="plateNumber" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="submitType" value="AddBus">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="Submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Add Bus -->

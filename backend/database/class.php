@@ -103,4 +103,22 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function addBus($plateNumber)
+    {
+        $id = $this->generateId('BUS', 4);
+        while ($this->checkGeneratedId('bus', 'bus_id', $id)->num_rows > 0) {
+            $id = $this->generateId('BUS', 4);
+        }
+
+        if ($this->checkGeneratedId('bus', 'plate_number', $plateNumber)->num_rows > 0) {
+            return 400;
+        }
+
+        $query = $this->conn->prepare("INSERT INTO `bus`(`bus_id`, `plate_number`, `status`) 
+                                        VALUES ('$id','$plateNumber','1')");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }

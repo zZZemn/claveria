@@ -12,6 +12,8 @@ if (isset($_POST['submitType'])) {
         echo $db->addRouteSched($_POST);
     } elseif ($submitType == 'AddRoute') {
         echo $db->addRoute($_POST);
+    } elseif ($submitType == 'AddBus') {
+        echo $db->addBus($_POST['plateNumber']);
     }
 } else {
     echo 'hoy';

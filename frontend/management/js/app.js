@@ -48,13 +48,13 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         if (response == "200") {
-          $('.modal').modal('hide');
+          $(".modal").modal("hide");
           showAlert("alert-success", "Schedule Added!");
           setTimeout(() => {
             window.location.reload();
           }, 1000);
         } else {
-          showAlert("alert-success", "Something Went Wrong.");
+          showAlert("alert-danger", "Something Went Wrong.");
         }
       },
     });
@@ -74,13 +74,39 @@ $(document).ready(function () {
       data: formData,
       success: function (response) {
         if (response == "200") {
-          $('.modal').modal('hide');
+          $(".modal").modal("hide");
           showAlert("alert-success", "Route Added!");
           setTimeout(() => {
             window.location.reload();
           }, 1000);
         } else {
-          showAlert("alert-success", "Something Went Wrong.");
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
+  // --------------------------
+  $("#frmAddBus").submit(function (e) {
+    e.preventDefault();
+    // var plateNumber = $("#addBusPlateNumber").val();
+
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Bus Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else if (response == "400") {
+          showAlert("alert-danger", "Plate number is already existing.");
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
         }
       },
     });

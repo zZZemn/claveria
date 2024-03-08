@@ -25,7 +25,6 @@ $getBus = $db->getBus();
             </thead>
             <tbody>
                 <?php
-                $getRoutesList = $db->getRouteList();
                 while ($route = $getRoutesList->fetch_assoc()) {
                     echo "
                 <tr>
@@ -46,39 +45,7 @@ $getBus = $db->getBus();
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="AddRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Route</h5>
-                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="frmAddRoute">
-                    <div class="input-container">
-                        <label for="addROrigin">Origin</label>
-                        <input type="text" id="addROrigin" name="origin" class="form-control" required>
-                    </div>
-                    <div class="input-container">
-                        <label for="addRDestination">Destination</label>
-                        <input type="text" id="addRDestination" name="destination" class="form-control" required>
-                    </div>
-                    <div class="input-container">
-                        <label for="addRFare">Fare</label>
-                        <input type="number" id="addRFare" name="fare" class="form-control" required>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="submitType" value="AddRoute">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="Submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- End of Modals -->
 <?php
 include('components/footer.php');
