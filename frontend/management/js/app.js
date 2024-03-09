@@ -87,6 +87,33 @@ $(document).ready(function () {
   });
 
   // --------------------------
+  $("#frmAddSubRoute").submit(function (e) {
+    e.preventDefault();
+    // var origin = $("#addSROrigin").val();
+    // var destination = $("#addSRDestination").val();
+    // var fare = $("#addSRFare").val();
+    // console.log("Hey");
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Sub Route Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
+  // --------------------------
   $("#frmAddBus").submit(function (e) {
     e.preventDefault();
     // var plateNumber = $("#addBusPlateNumber").val();

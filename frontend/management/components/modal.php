@@ -52,7 +52,6 @@
 </div>
 <!-- End of Add Route Schedule -->
 
-
 <!-- Add Route -->
 <div class="modal fade" id="AddRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -73,10 +72,10 @@
                         <label for="addRDestination">Destination</label>
                         <input type="text" id="addRDestination" name="destination" class="form-control" required>
                     </div>
-                    <div class="input-container">
+                    <!-- <div class="input-container">
                         <label for="addRFare">Fare</label>
                         <input type="number" id="addRFare" name="fare" class="form-control" required>
-                    </div>
+                    </div> -->
                     <div class="modal-footer">
                         <input type="hidden" name="submitType" value="AddRoute">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

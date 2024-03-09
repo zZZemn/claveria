@@ -128,7 +128,7 @@ class global_class extends db_connect
             $id = $this->generateId('RA-ID', 5);
         }
 
-        $query = $this->conn->prepare("INSERT INTO `routes`(`route_id`, `origin`, `destination`, `fare`) VALUES ('" . $id . "','" . $post['origin'] . "','" . $post['destination'] . "','" . $post['fare'] . "')");
+        $query = $this->conn->prepare("INSERT INTO `routes`(`route_id`, `origin`, `destination`) VALUES ('" . $id . "','" . $post['origin'] . "','" . $post['destination'] . "')");
         if ($query->execute()) {
             echo 200;
         }
@@ -157,6 +157,20 @@ class global_class extends db_connect
         if ($query->execute()) {
             echo 200;
         }
+    }
+
+    public function addSubRoute($post)
+    {
+        $id = $this->generateId("SR", 5);
+        while ($this->checkGeneratedId('sub_routes', 'sr_id', $id)->num_rows > 0) {
+            $id = $this->generateId("SR", 5);
+        }
+
+        $query = $this->conn->prepare("INSERT INTO `sub_routes`(`sr_id`, `route_id`, `origin`, `destination`, `fare`) VALUES ('$id','" . $post['routeId'] . "','" . $post['origin'] . "','" . $post['destination'] . "','" . $post['fare'] . "')");
+        if ($query->execute()) {
+            return 200;
+        }
+        return "asd";
     }
 
     // Bus

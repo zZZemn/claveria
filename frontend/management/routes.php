@@ -19,7 +19,6 @@ $getBus = $db->getBus();
                     <th>ID</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Fare</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -31,8 +30,10 @@ $getBus = $db->getBus();
                     <td>" . $route['route_id'] . "</td>
                     <td>" . $route['origin'] . "</td>
                     <td>" . $route['destination'] . "</td>
-                    <td>" . $route['fare'] . "</td>
-                    <td><button class='btn btn-primary'><i class='bi bi-pen'></i></button></td>
+                    <td>
+                        <button class='btn btn-primary'><i class='bi bi-pen'></i></button>
+                        <a href='sub-route.php?route_id=" . $route['route_id'] . "' class='btn btn-dark'>View Sub Routes</a>
+                    </td>
                 </tr>
                 ";
                 }

@@ -21,7 +21,6 @@ $getBus = $db->getBus();
                     <th>Bus</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Fare</th>
                     <th>Departure</th>
                     <th>Arrival</th>
                     <th>Added Passenger</th>
@@ -38,7 +37,6 @@ $getBus = $db->getBus();
                     <td>" . $route['plate_number'] . "</td>
                     <td>" . $route['origin'] . "</td>
                     <td>" . $route['destination'] . "</td>
-                    <td>" . $route['fare'] . "</td>
                     <td>" . $route['date_departure'] . "</td>
                     <td>" . $route['date_arrival'] . "</td>
                     <td>" . $route['added_passenger'] . "</td>
