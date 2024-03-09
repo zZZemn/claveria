@@ -46,25 +46,25 @@ $(document).ready(function () {
 
     // Validate Email
     if (email.trim() === "" || !isValidEmail(email)) {
-      $("#sEmail").addClass("is-invalid");
+      $("#editEmail").addClass("is-invalid");
       numberOfInvalid++;
     }
 
     // Validate Contact Number
     if (contactNo.trim() === "" || !isValidContactNo(contactNo)) {
-      $("#sContactNo").addClass("is-invalid");
+      $("#editContact").addClass("is-invalid");
       numberOfInvalid++;
     }
 
     // Validate Username
     if (/\s/.test(username) || username.length < 7) {
-      $("#sUsername").addClass("is-invalid");
+      $("#editUsername").addClass("is-invalid");
       numberOfInvalid++;
     }
 
     // Validate Address
     if (address.trim() === "" || address.length < 15) {
-      $("#sAddress").addClass("is-invalid");
+      $("#editAddress").addClass("is-invalid");
       numberOfInvalid++;
     }
 
@@ -109,7 +109,7 @@ $(document).ready(function () {
         },
       });
     } else {
-      showAlert("alert-danger", "Invalid Sign in!");
+      showAlert("alert-danger", "Invalid Info!");
     }
   });
 

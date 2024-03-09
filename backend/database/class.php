@@ -94,8 +94,13 @@ class global_class extends db_connect
 
     public function editProfile($id, $post)
     {
-        if ($this->checkGeneratedId('accounts', 'username', $post['username'])->num_rows > 0) {
-            return 404;
+        if ($getUser = $this->checkGeneratedId('accounts', 'username', $post['username'])) {
+            if ($getUser->num_rows > 0) {
+                $user = $getUser->fetch_assoc();
+                if ($user['acc_id'] != $id) {
+                    return 404;
+                }
+            }
         }
 
         $query = $this->conn->prepare("UPDATE `accounts` SET `username`='" . $post['username'] . "',`name`='" . $post['name'] . "',`address`='" . $post['address'] . "',`email`='" . $post['email'] . "',`contact_no`='" . $post['contact_no'] . "' WHERE `acc_id` = '$id'");
