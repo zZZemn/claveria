@@ -92,6 +92,20 @@ class global_class extends db_connect
         // }
     }
 
+    public function editProfile($id, $post)
+    {
+        if ($this->checkGeneratedId('accounts', 'username', $post['username'])->num_rows > 0) {
+            return 404;
+        }
+
+        $query = $this->conn->prepare("UPDATE `accounts` SET `username`='" . $post['username'] . "',`name`='" . $post['name'] . "',`address`='" . $post['address'] . "',`email`='" . $post['email'] . "',`contact_no`='" . $post['contact_no'] . "' WHERE `acc_id` = '$id'");
+        if ($query->execute()) {
+            return 200;
+        } else {
+            return "Hoyy";
+        }
+    }
+
     // routes
     public function getRoutes()
     {
