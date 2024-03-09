@@ -4,12 +4,12 @@ include('components/header.php');
 <div>
     <div class="top-contents-container d-flex align-items-center justify-content-between">
         <h2 id="page-title">Routes Schedule</h2>
-        <div class="top-contents-btns-container d-flex align-items-center">
+        <!-- <div class="top-contents-btns-container d-flex align-items-center">
             <button type="button" class="btn btn-primary mx-1" data-toggle="modal" data-target="#AddRouteSched">
                 <i class="bi bi-plus-lg"></i>
                 New Schedule
             </button>
-        </div>
+        </div> -->
     </div>
     <div class="table-container">
         <table class="table table-striped">
@@ -19,7 +19,6 @@ include('components/header.php');
                     <th>Bus</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Fare</th>
                     <th>Departure</th>
                     <th>Arrival</th>
                     <th>Status</th>
@@ -37,7 +36,6 @@ include('components/header.php');
                             <td>" . $route['plate_number'] . "</td>
                             <td>" . $route['origin'] . "</td>
                             <td>" . $route['destination'] . "</td>
-                            <td>" . $route['fare'] . "</td>
                             <td>" . $route['date_departure'] . "</td>
                             <td>" . $route['date_arrival'] . "</td>
                             <td>" . $route['status'] . "</td>

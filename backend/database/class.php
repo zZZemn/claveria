@@ -224,4 +224,14 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+    // Discounts
+    public function getDiscounts()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `discounts`");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
