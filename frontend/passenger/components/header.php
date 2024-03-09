@@ -45,6 +45,7 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
     <aside class="side-bar">
         <ul>
             <li><a href="index.php" id="nav-announcement"><i class="bi bi-megaphone"></i> Announcements</a></li>
+            <li><a href="routes-shedules.php" id="nav-routes-schedules"><i class="bi bi-calendar-date"></i> Routes Schedules</a></li>
             <li><a href="profile.php" id="nav-profile"><i class="bi bi-person-circle"></i> Profile</a></li>
         </ul>
     </aside>
