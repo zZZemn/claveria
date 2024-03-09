@@ -6,10 +6,10 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
         header('Location: frontend/management/booking.php');
         exit();
     } elseif ($accType == 'passenger') {
-        header('Location: frontent/passenger/passenger.php');
+        header('Location: frontend/passenger');
         exit();
     } elseif ($accType == 'inspector') {
-        header('Location: frontent/inspector/inspector.php');
+        header('Location: frontend/inspector/inspector.php');
         exit();
     } else {
         // header('Location: index.php');
