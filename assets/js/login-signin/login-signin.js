@@ -139,6 +139,9 @@ $(document).ready(function () {
             setTimeout(() => {
               window.location.href = "login.php";
             }, 2000);
+          } else if (response == "404") {
+            $("#sUsername").addClass("is-invalid");
+            showAlert("alert-danger", "Username si already existing!");
           } else {
             showAlert("alert-danger", "Something Went Wrong!");
           }
