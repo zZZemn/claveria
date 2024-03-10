@@ -10,6 +10,8 @@ if (isset($_POST['submitType'])) {
     $submitType = $_POST['submitType'];
     if ($submitType == 'EditProfile') {
         echo $db->editProfile($_SESSION['id'], $_POST);
+    } elseif ($submitType == 'Book') {
+        echo $db->book($_SESSION['id'], $_POST);
     }
 } else {
     echo 'hoy';

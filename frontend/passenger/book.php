@@ -15,7 +15,18 @@ if (isset($_GET['ra_sched_id'])) {
 
         $getDiscount = $db->getDiscounts();
 
-        $seats = ["1", "2", "3" , "4", "5"];
+        $seats = [
+            "D1W", "D2W", "C2W", "C1W",
+            "D3W", "D4A", "C4A", "C3W",
+            "D5W", "D6A", "C6A", "C5W",
+            "D7W", "D8A", "C8A", "C7W",
+            "D9W", "D10A", "C10A", "C9W",
+            "D11W", "D12A", "C12A", "C11W",
+            "D13W", "D14A", "C14A", "C13W",
+            "D15W", "D16A", "C16A", "C15W",
+            "D17W", "D18A", "C18A", "C17W",
+            "D19W", "D20A", "B21C", "C20A", "C19W"
+        ];
     } else {
         header('Location: routes-shedules.php');
         exit;
@@ -75,91 +86,20 @@ if (isset($_GET['ra_sched_id'])) {
 
         <hr>
 
-        <div class="d-flex justify-content-between flex-wrap">
+        <div class="d-flex flex-column align-items-center">
             <div class="">
                 <div class="text-primary">
                     <span class="color-guide bg-primary px-1 mx-1"> s </span>
                     Seat Occupied
                 </div>
-                <table class="table-bordered table-bus-seats mt-2">
-                    <tr>
-                        <td class="bg-primary text-light"><span>1</span></td>
-                        <td><span>2</span></td>
-                        <td><span>-</span></td>
-                        <td><span>3</span></td>
-                        <td><span>4</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>5</span></td>
-                        <td><span>6</span></td>
-                        <td><span>-</span></td>
-                        <td><span>7</span></td>
-                        <td><span>8</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>9</span></td>
-                        <td><span>10</span></td>
-                        <td><span>-</span></td>
-                        <td><span>11</span></td>
-                        <td><span>12</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>13</span></td>
-                        <td><span>14</span></td>
-                        <td><span>-</span></td>
-                        <td><span>15</span></td>
-                        <td><span>16</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>17</span></td>
-                        <td><span>18</span></td>
-                        <td><span>-</span></td>
-                        <td><span>19</span></td>
-                        <td><span>20</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>21</span></td>
-                        <td><span>22</span></td>
-                        <td><span>-</span></td>
-                        <td><span>23</span></td>
-                        <td><span>24</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>25</span></td>
-                        <td><span>26</span></td>
-                        <td><span>-</span></td>
-                        <td><span>27</span></td>
-                        <td><span>28</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>29</span></td>
-                        <td><span>30</span></td>
-                        <td><span>-</span></td>
-                        <td><span>31</span></td>
-                        <td><span>32</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>33</span></td>
-                        <td><span>34</span></td>
-                        <td><span>-</span></td>
-                        <td><span>35</span></td>
-                        <td><span>36</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>37</span></td>
-                        <td><span>38</span></td>
-                        <td><span>39</span></td>
-                        <td><span>40</span></td>
-                        <td><span>41</span></td>
-                    </tr>
-                </table>
+                <?php include('seat-template.php'); ?>
             </div>
-            <div class="booking-card-container card p-3">
+            <div class="booking-card-container card p-3 mt-3">
                 <h6 class="text-center">Book Here!</h6>
-                <div class="frm-add-booking">
+                <form id="frmAddBooking" class="frm-add-booking">
                     <div class="input-container">
                         <label for="selectRoute">Pick Route</label>
-                        <select id="selectRoute" class="form-control" required>
+                        <select id="selectRoute" class="form-control" name="subRoute" required>
                             <option></option>
                             <?php
                             while ($subRoute = $getSubRoute->fetch_assoc()) {
@@ -168,29 +108,43 @@ if (isset($_GET['ra_sched_id'])) {
                             ?>
                         </select>
                     </div>
-                    <div>
-                        <div class="input-container">
+                    <div class="d-flex flex-wrap">
+                        <div class="input-container" style="margin-right: 10px;">
                             <label for="selectDiscount">Discount</label>
-                            <select id="selectDiscount" class="form-control" required>
-                                <option value="None">None</option>
+                            <select id="selectDiscount" class="form-control" name="discount" required style="width: 130px;">
+                                <option value=" None">None</option>
                                 <?php
                                 while ($discount = $getDiscount->fetch_assoc()) {
-                                    echo "<option value=" . $discount['disount_id'] . ">" . $discount['discount_type'] . "</option>";
+                                    echo "<option value=" . $discount['discount_id'] . ">" . $discount['discount_type'] . "</option>";
                                 }
                                 ?>
                             </select>
                         </div>
-                        <div class="input-container">
+                        <div class="input-container" style="margin-right: 10px;">
                             <label for="selectSeat">Select Seat</label>
-                            <select>
+                            <select id="selectSeat" class="form-control" name="seat" required style="width: 130px;">
                                 <option value=""></option>
+                                <?php
+                                foreach ($seats as $seat) {
+                                    $checkIfSeatIsOccupied = $db->checkSeatAvailabilily($schedId, $seat);
+                                    if ($checkIfSeatIsOccupied->num_rows < 1) {
+                                        echo "<option value=" . $seat . ">" . $seat . "</option>";
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
+                        <div>
+                            <input type="hidden" name="routeAvId" value="<?= $schedId ?>">
+                            <input type="hidden" name="submitType" value="Book">
+                            <button class="btn btn-primary">Add Booking</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Modals -->

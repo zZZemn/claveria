@@ -113,5 +113,37 @@ $(document).ready(function () {
     }
   });
 
+  $("#frmAddBooking").submit(function (e) {
+    e.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/passenger/post.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          showAlert("alert-success", "Booking Success!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else if (response == "201") {
+          showAlert("alert-success", "Seat Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else if (response == "404") {
+          showAlert("alert-danger", "Booking Failed");
+        } else {
+          showAlert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });

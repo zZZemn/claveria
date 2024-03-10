@@ -234,4 +234,86 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    // Booking
+    public function checkSeatAvailabilily($schedId, $seat)
+    {
+        $query = $this->conn->prepare("SELECT bd.bd_id FROM `booking_details` AS bd
+                                       JOIN `booking` AS b ON bd.booking_id = b.booking_id
+                                       JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
+                                       WHERE ra.route_av_id = '$schedId'
+                                       AND bd.seat_no = '$seat'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function checkPendingBooking($accId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `booking` WHERE `acc_id` = '$accId' AND `status` = 'pending'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function book($accId, $post)
+    {
+        $bookingDate = new DateTime();
+        $expirationDate = clone $bookingDate;
+        $expirationDate->add(new DateInterval('PT24H'));;
+
+        $bookingId = $this->generateId("BOOKING", 8);
+        while ($this->checkGeneratedId("booking", "booking_id", $bookingId)->num_rows > 0) {
+            $bookingId = $this->generateId("BOOKING", 8);
+        }
+
+        $bookingDetailsId = $this->generateId("BD", 10);
+        while ($this->checkGeneratedId("booking_details", "bd_id", $bookingDetailsId)->num_rows > 0) {
+            $bookingDetailsId = $this->generateId("BD", 10);
+        }
+
+        $getSubroute = $this->checkGeneratedId("sub_routes", "sr_id", $post['subRoute']);
+        $subRoute = $getSubroute->fetch_assoc();
+
+        $getDiscount = $this->checkGeneratedId("discounts", "discount_id", $post['discount']);
+        if ($getDiscount->num_rows > 0) {
+            $discount = $getDiscount->fetch_assoc();
+            $discountPercentage = $discount['discount_percentage'];
+        } else {
+            $discountPercentage = 0;
+        }
+
+        // Computation;
+        $fare = $subRoute['fare'];
+
+        $computedDiscount = $fare * $discountPercentage;
+        $computedFare = $fare - $computedDiscount;
+
+        $checkPendingBooking = $this->checkPendingBooking($accId);
+        if ($checkPendingBooking->num_rows > 0) {
+            $pendingBooking = $checkPendingBooking->fetch_assoc();
+            $pendingBookingId = $pendingBooking['booking_id'];
+            if ($pendingBooking['route_av_id'] == $post['routeAvId']) {
+                $insertBooking = $this->conn->prepare("INSERT INTO `booking_details`(`bd_id`, `booking_id`, `sr_id`, `discount_id`, `seat_no`, `computed_fare`) 
+                                                        VALUES ('$bookingDetailsId','$pendingBookingId','" . $post['subRoute'] . "','" . $post['discount'] . "','" . $post['seat'] . "', '$computedFare')");
+                if ($insertBooking->execute()) {
+                    return 201;
+                }
+            } else {
+                return 404;
+            }
+        } else {
+            $insertBooking = $this->conn->prepare("INSERT INTO `booking`(`booking_id`, `route_av_id`, `acc_id`, `booking_date`, `booking_expiration`, `booking_type`, `status`) 
+                                                                    VALUES ('$bookingId','" . $post['routeAvId'] . "','$accId','" . $bookingDate->format('Y-m-d H:i:s') . "','" . $expirationDate->format('Y-m-d H:i:s') . "','online','pending')");
+
+            $insertBookingDetails = $this->conn->prepare("INSERT INTO `booking_details`(`bd_id`, `booking_id`, `sr_id`, `discount_id`, `seat_no`, `computed_fare`) 
+                                                                                VALUES ('$bookingDetailsId','$bookingId','" . $post['subRoute'] . "','" . $post['discount'] . "','" . $post['seat'] . "', '$computedFare')");
+
+            if ($insertBooking->execute() && $insertBookingDetails->execute()) {
+                return 200;
+            }
+        }
+    }
 }
