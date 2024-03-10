@@ -27,6 +27,18 @@ if (isset($_GET['ra_sched_id'])) {
             "D17W", "D18A", "C18A", "C17W",
             "D19W", "D20A", "B21C", "C20A", "C19W"
         ];
+
+        $getPendingBooking = $db->checkPendingBooking($id);
+
+        function checkSeat($db, $schedId, $seat)
+        {
+            $checkSeat = $db->checkSeatAvailabilily($schedId, $seat);
+            if ($checkSeat->num_rows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     } else {
         header('Location: routes-shedules.php');
         exit;
@@ -142,6 +154,62 @@ if (isset($_GET['ra_sched_id'])) {
                     </div>
                 </form>
             </div>
+            <?php
+            if ($getPendingBooking->num_rows > 0) {
+                $pendingBooking = $getPendingBooking->fetch_assoc();
+                if ($pendingBooking['route_av_id'] == $schedId) {
+                    $bookingId = $pendingBooking['booking_id'];
+            ?>
+                    <div class="container card p-3 mt-3">
+                        <h4 class="text-center mt-2">Your Booking</h4>
+                        <hr>
+                        <div class="d-flex flex-wrap">
+                            <div class="input-container" style="margin-right: 15px; width: 250px">
+                                <label>Booking Date</label>
+                                <input type="text" readonly class="form-control" value="<?= date('F j, Y, g:i A', strtotime($pendingBooking['booking_date'])) ?>">
+                            </div>
+                            <div class="input-container" style="width: 250px">
+                                <label>Booking Expiration</label>
+                                <input type="text" readonly class="form-control" value="<?= date('F j, Y, g:i A', strtotime($pendingBooking['booking_expiration'])) ?>">
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Route</th>
+                                    <th>Seat no.</th>
+                                    <th>Discount</th>
+                                    <th>Computed Fare</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $getBookingDetails = $db->getBookingDetails($bookingId);
+                                while ($bd = $getBookingDetails->fetch_assoc()) {
+                                    $getSubroute = $db->checkGeneratedId("sub_routes", "sr_id", $bd['sr_id']);
+                                    $subroute = $getSubroute->fetch_assoc();
+
+                                    $getDiscount = $db->checkGeneratedId("discounts", "discount_id", $bd['discount_id']);
+                                    $discount = $getDiscount->fetch_assoc();
+
+                                    echo "
+                                           <tr>
+                                               <td>" . $bd['bd_id'] . "</td>
+                                               <td>" . $subroute['origin'] . ' To ' . $subroute['destination'] .  "</td>
+                                               <td>" . $bd['seat_no'] . "</td>
+                                               <td>" . (($getDiscount->num_rows > 0) ? $discount['discount_type'] : 'None') . "</td>
+                                               <td>" . $bd['computed_fare'] . "</td>
+                                           </tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+            <?php
+                }
+            }
+            ?>
         </div>
     </div>
 </div>

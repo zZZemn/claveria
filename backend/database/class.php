@@ -316,4 +316,13 @@ class global_class extends db_connect
             }
         }
     }
+
+    public function getBookingDetails($bookingId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `booking_details` WHERE `booking_id` = '$bookingId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
