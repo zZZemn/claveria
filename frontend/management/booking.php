@@ -39,7 +39,7 @@ $getBus = $db->getBus();
                             <td>" . $booking['booking_expiration'] . "</td>
                             <td>" . $booking['booking_type'] . "</td>
                             <td>" . $booking['status'] . "</td>
-                            <td><a href='#' class='btn btn-primary'>View</a></td>
+                            <td><a href='booking-details.php?b_id=" . $booking['booking_id'] . "' class='btn btn-primary'>View</a></td>
                           </tr>";
                 }
 

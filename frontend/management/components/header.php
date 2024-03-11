@@ -3,6 +3,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 include('../../backend/database/class.php');
+
+function goToIndex()
+{
+    header('Location: ../../index.php');
+    exit();
+}
+
 if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
     $db = new global_class();
     $id = $_SESSION['id'];
@@ -10,12 +17,10 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
     if ($getAccount->num_rows > 0) {
         $account = $getAccount->fetch_assoc();
     } else {
-        header('Location: ../../index.php');
-        exit();
+        goToIndex();
     }
 } else {
-    header('Location: ../../index.php');
-    exit();
+    goToIndex();
 }
 ?>
 

@@ -325,4 +325,17 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function getBookingInformation($bookingId)
+    {
+        $query = $this->conn->prepare("SELECT b.* FROM `booking` AS b 
+                                       JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
+                                       JOIN `routes` AS r ON ra.route_id = r.route_id
+                                       JOIN `accounts` AS a ON b.acc_id = a.acc_id
+                                       WHERE b.booking_id = '$bookingId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
