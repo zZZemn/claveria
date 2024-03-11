@@ -84,16 +84,6 @@ if (isset($_GET['ra_sched_id'])) {
                     <input type="text" class="form-control" value="<?= $sched['date_arrival'] ?>" readonly>
                 </div>
             </div>
-            <div class="d-flex justify-content-between flex-wrap">
-                <div class="input-container">
-                    <label>Fare</label>
-                    <input type="text" class="form-control" value="<?= $route['fare'] ?>" readonly>
-                </div>
-                <div class="input-container">
-                    <label>Available</label>
-                    <input type="text" class="form-control" value="50" readonly>
-                </div>
-            </div>
         </div>
 
         <hr>
@@ -106,7 +96,7 @@ if (isset($_GET['ra_sched_id'])) {
                 </div>
                 <?php include('seat-template.php'); ?>
             </div>
-            <div class="booking-card-container card p-3 mt-3">
+            <div class="booking-card-container container card p-3 mt-3">
                 <h6 class="text-center">Book Here!</h6>
                 <form id="frmAddBooking" class="frm-add-booking">
                     <div class="input-container">
@@ -146,7 +136,7 @@ if (isset($_GET['ra_sched_id'])) {
                                 ?>
                             </select>
                         </div>
-                        <div>
+                        <div class="">
                             <input type="hidden" name="routeAvId" value="<?= $schedId ?>">
                             <input type="hidden" name="submitType" value="Book">
                             <button class="btn btn-primary">Add Booking</button>
