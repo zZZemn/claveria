@@ -317,16 +317,12 @@ class global_class extends db_connect
         }
     }
 
-    public function getBookingDetails($bookingId)
+    public function getAllBookings()
     {
-        $query = $this->conn->prepare("SELECT * FROM `booking_details` WHERE `booking_id` = '$bookingId'");
+        $query = $this->conn->prepare("SELECT b.*, a.name FROM `booking` AS b JOIN `accounts` AS a ON b.acc_id = a.acc_id");
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
         }
     }
-
-   
-
-
 }

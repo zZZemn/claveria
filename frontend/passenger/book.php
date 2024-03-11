@@ -175,7 +175,7 @@ if (isset($_GET['ra_sched_id'])) {
                             </thead>
                             <tbody>
                                 <?php
-                                $getBookingDetails = $db->getBookingDetails($bookingId);
+                                $getBookingDetails = $db->checkGeneratedId("booking_details", "booking_id", $bookingId);
                                 while ($bd = $getBookingDetails->fetch_assoc()) {
                                     $getSubroute = $db->checkGeneratedId("sub_routes", "sr_id", $bd['sr_id']);
                                     $subroute = $getSubroute->fetch_assoc();
