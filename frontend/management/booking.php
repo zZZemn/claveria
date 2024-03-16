@@ -31,10 +31,11 @@ $getBus = $db->getBus();
                 <?php
                 $getAllBookings = $db->getAllBookings();
                 while ($booking = $getAllBookings->fetch_assoc()) {
+                    $getAccount = $db->checkGeneratedId('accounts', 'acc_id', $booking['acc_id']);
                     echo "<tr>
                             <td>" . $booking['booking_id'] . "</td>
                             <td>" . $booking['route_av_id'] . "</td>
-                            <td>" . $booking['name'] . "</td>
+                            <td>" . ($getAccount->num_rows > 0 ? $booking['name'] : $booking['acc_id']) . "</td>
                             <td>" . $booking['booking_date'] . "</td>
                             <td>" . $booking['booking_expiration'] . "</td>
                             <td>" . $booking['booking_type'] . "</td>

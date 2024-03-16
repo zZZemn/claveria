@@ -313,13 +313,73 @@ class global_class extends db_connect
 
             if ($insertBooking->execute() && $insertBookingDetails->execute()) {
                 return 200;
+            } else {
+                return 404;
             }
+        }
+    }
+
+    public function walkInBooking($post)
+    {
+        $bookingDate = new DateTime();
+        $expirationDate = clone $bookingDate;
+        $expirationDate->add(new DateInterval('PT24H'));;
+
+        $bookingId = $this->generateId("BOOKING", 8);
+        while ($this->checkGeneratedId("booking", "booking_id", $bookingId)->num_rows > 0) {
+            $bookingId = $this->generateId("BOOKING", 8);
+        }
+
+        $bookingDetailsId = $this->generateId("BD", 10);
+        while ($this->checkGeneratedId("booking_details", "bd_id", $bookingDetailsId)->num_rows > 0) {
+            $bookingDetailsId = $this->generateId("BD", 10);
+        }
+
+        $getSubroute = $this->checkGeneratedId("sub_routes", "sr_id", $post['subRoute']);
+        $subRoute = $getSubroute->fetch_assoc();
+
+        $getDiscount = $this->checkGeneratedId("discounts", "discount_id", $post['discount']);
+        if ($getDiscount->num_rows > 0) {
+            $discount = $getDiscount->fetch_assoc();
+            $discountPercentage = $discount['discount_percentage'];
+        } else {
+            $discountPercentage = 0;
+        }
+
+        $fare = $subRoute['fare'];
+
+        $computedDiscount = $fare * $discountPercentage;
+        $computedFare = $fare - $computedDiscount;
+
+        $bookingIdValue = $bookingId;
+        $routeAvIdValue = $post['routeAvId'];
+        $bookByValue = $post['bookBy'];
+        $bookingDateValue = $bookingDate->format('Y-m-d H:i:s');
+        $expirationDateValue = $expirationDate->format('Y-m-d H:i:s');
+
+
+        $insertBooking = $this->conn->prepare("INSERT INTO `booking`(`booking_id`, `route_av_id`, `acc_id`, `booking_date`, `booking_expiration`, `booking_type`, `status`) 
+                                       VALUES (?, ?, ?, ?, ?, 'walk in', 'pending')");
+
+        $insertBooking->bind_param("ssiss", $bookingIdValue, $routeAvIdValue, $bookByValue, $bookingDateValue, $expirationDateValue);
+        $insertBooking->execute();
+
+        $insertBookingDetails = $this->conn->prepare("INSERT INTO `booking_details`(`bd_id`, `booking_id`, `sr_id`, `discount_id`, `seat_no`, `computed_fare`) 
+                                              VALUES (?, ?, ?, ?, ?, ?)");
+
+        $insertBookingDetails->bind_param("sssssi", $bookingDetailsId, $bookingId, $post['subRoute'], $post['discount'], $post['seat'], $computedFare);
+        $insertBookingDetails->execute();
+
+        if ($insertBooking->affected_rows > 0 && $insertBookingDetails->affected_rows > 0) {
+            return $bookingId;
+        } else {
+            return 404;
         }
     }
 
     public function getAllBookings()
     {
-        $query = $this->conn->prepare("SELECT b.*, a.name FROM `booking` AS b JOIN `accounts` AS a ON b.acc_id = a.acc_id");
+        $query = $this->conn->prepare("SELECT b.*, a.name FROM `booking` AS b LEFT JOIN `accounts` AS a ON b.acc_id = a.acc_id");
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
@@ -329,9 +389,9 @@ class global_class extends db_connect
     public function getBookingInformation($bookingId)
     {
         $query = $this->conn->prepare("SELECT b.*, b.status AS booking_status,ra.*, r.origin, r.destination, a.name FROM `booking` AS b 
-                                       JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
-                                       JOIN `routes` AS r ON ra.route_id = r.route_id
-                                       JOIN `accounts` AS a ON b.acc_id = a.acc_id
+                                       LEFT JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
+                                       LEFT JOIN `routes` AS r ON ra.route_id = r.route_id
+                                       LEFT JOIN `accounts` AS a ON b.acc_id = a.acc_id
                                        WHERE b.booking_id = '$bookingId'");
         if ($query->execute()) {
             $result = $query->get_result();

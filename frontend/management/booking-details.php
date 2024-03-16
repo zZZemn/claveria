@@ -9,6 +9,7 @@ if (isset($_GET['b_id'])) {
     if ($getBookingInfo->num_rows > 0) {
         $bookingInfo = $getBookingInfo->fetch_assoc();
         $getBookingDetails = $db->getBookingDetails($bookingId);
+        $getAccount = $db->checkGeneratedId('accounts', 'acc_id', $bookingInfo['acc_id']);
     } else {
         header('Location: booking.php');
         exit();
@@ -55,7 +56,7 @@ if (isset($_GET['b_id'])) {
             <div class="d-flex flex-wrap justify-content-between">
                 <div class="input-container">
                     <label>Book By</label>
-                    <input type="text" class="form-control" value="<?= $bookingInfo['name'] ?>" readonly>
+                    <input type="text" class="form-control" value="<?= ($getAccount->num_rows > 0 ? $bookingInfo['name'] : $bookingInfo['acc_id']) ?>" readonly>
                 </div>
                 <div class="input-container">
                     <label>Status</label>

@@ -25,6 +25,7 @@ $getBus = $db->getBus();
                     <th>Arrival</th>
                     <th>Added Passenger</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,9 @@ $getBus = $db->getBus();
                     <td>" . $route['date_arrival'] . "</td>
                     <td>" . $route['added_passenger'] . "</td>
                     <td>" . $route['status'] . "</td>
+                    <td>
+                        <a href='book.php?ra_sched_id=" . $route['route_av_id'] . "' class='btn btn-primary'><i class='bi bi-plus-lg'></i> Add Booking</a>
+                    </td>
                 </tr>
                 ";
                 }

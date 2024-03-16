@@ -20,6 +20,8 @@ if (isset($_POST['submitType'])) {
         echo $db->addAnnouncement($_POST);
     } elseif ($submitType == 'MarkAsPaid') {
         echo $db->markAsPaid($_POST['bookingId']);
+    } elseif ($submitType == 'Book') {
+        echo $db->walkInBooking($_POST);
     }
 } else {
     echo 'hoy';

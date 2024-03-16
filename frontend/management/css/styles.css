@@ -82,6 +82,17 @@ main {
 }
 /* routes */
 
+/* booking */
+.table-bus-seats {
+  width: 250px !important;
+}
+
+.table-bus-seats tr td {
+  padding: 10px !important;
+  text-align: center !important;
+}
+/* booking */
+
 @media screen and (max-width: 900px) {
   main {
     width: 100vw;
