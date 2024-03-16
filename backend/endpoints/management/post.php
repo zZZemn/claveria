@@ -18,6 +18,8 @@ if (isset($_POST['submitType'])) {
         echo $db->addBus($_POST['plateNumber']);
     } elseif ($submitType == 'AddAnnouncement') {
         echo $db->addAnnouncement($_POST);
+    } elseif ($submitType == 'MarkAsPaid') {
+        echo $db->markAsPaid($_POST['bookingId']);
     }
 } else {
     echo 'hoy';

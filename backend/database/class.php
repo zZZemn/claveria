@@ -328,7 +328,7 @@ class global_class extends db_connect
 
     public function getBookingInformation($bookingId)
     {
-        $query = $this->conn->prepare("SELECT b.* FROM `booking` AS b 
+        $query = $this->conn->prepare("SELECT b.*, b.status AS booking_status,ra.*, r.origin, r.destination, a.name FROM `booking` AS b 
                                        JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
                                        JOIN `routes` AS r ON ra.route_id = r.route_id
                                        JOIN `accounts` AS a ON b.acc_id = a.acc_id
@@ -336,6 +336,26 @@ class global_class extends db_connect
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
+        }
+    }
+
+    public function getBookingDetails($bookingId)
+    {
+        $query = $this->conn->prepare("SELECT bd.*, sr.origin, sr.destination, d.discount_type FROM `booking_details` AS bd 
+                                       JOIN `sub_routes` AS sr ON bd.sr_id = sr.sr_id
+                                       LEFT JOIN `discounts` d ON bd.discount_id = d.discount_id
+                                       WHERE bd.booking_id = '$bookingId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function markAsPaid($bookingId)
+    {
+        $query = $this->conn->prepare("UPDATE `booking` SET `status`='Paid' WHERE `booking_id` = '$bookingId'");
+        if ($query->execute()) {
+            return 200;
         }
     }
 }

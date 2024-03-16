@@ -164,5 +164,31 @@ $(document).ready(function () {
     });
   });
 
+  // --------------------------
+  $("#MarkAsPaid").click(function (e) {
+    e.preventDefault();
+    var bookingId = $(this).data("id");
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: {
+        bookingId: bookingId,
+        submitType: "MarkAsPaid",
+      },
+      success: function (response) {
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Booking Paid!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });
