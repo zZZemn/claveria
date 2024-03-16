@@ -361,7 +361,7 @@ class global_class extends db_connect
         $insertBooking = $this->conn->prepare("INSERT INTO `booking`(`booking_id`, `route_av_id`, `acc_id`, `booking_date`, `booking_expiration`, `booking_type`, `status`) 
                                        VALUES (?, ?, ?, ?, ?, 'walk in', 'pending')");
 
-        $insertBooking->bind_param("ssiss", $bookingIdValue, $routeAvIdValue, $bookByValue, $bookingDateValue, $expirationDateValue);
+        $insertBooking->bind_param("sssss", $bookingIdValue, $routeAvIdValue, $bookByValue, $bookingDateValue, $expirationDateValue);
         $insertBooking->execute();
 
         $insertBookingDetails = $this->conn->prepare("INSERT INTO `booking_details`(`bd_id`, `booking_id`, `sr_id`, `discount_id`, `seat_no`, `computed_fare`) 
