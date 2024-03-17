@@ -377,6 +377,37 @@ class global_class extends db_connect
         }
     }
 
+    public function walkInAddBooking($post)
+    {
+        $bookingDetailsId = $this->generateId("BD", 10);
+        while ($this->checkGeneratedId("booking_details", "bd_id", $bookingDetailsId)->num_rows > 0) {
+            $bookingDetailsId = $this->generateId("BD", 10);
+        }
+
+        $getSubroute = $this->checkGeneratedId("sub_routes", "sr_id", $post['subRoute']);
+        $subRoute = $getSubroute->fetch_assoc();
+
+        $getDiscount = $this->checkGeneratedId("discounts", "discount_id", $post['discount']);
+        if ($getDiscount->num_rows > 0) {
+            $discount = $getDiscount->fetch_assoc();
+            $discountPercentage = $discount['discount_percentage'];
+        } else {
+            $discountPercentage = 0;
+        }
+
+        // Computation;
+        $fare = $subRoute['fare'];
+
+        $computedDiscount = $fare * $discountPercentage;
+        $computedFare = $fare - $computedDiscount;
+
+        $insertBooking = $this->conn->prepare("INSERT INTO `booking_details`(`bd_id`, `booking_id`, `sr_id`, `discount_id`, `seat_no`, `computed_fare`) 
+                                                        VALUES ('$bookingDetailsId','" . $post['bookingId'] . "','" . $post['subRoute'] . "','" . $post['discount'] . "','" . $post['seat'] . "', '$computedFare')");
+        if ($insertBooking->execute()) {
+            return 200;
+        }
+    }
+
     public function getAllBookings()
     {
         $query = $this->conn->prepare("SELECT b.*, a.name FROM `booking` AS b LEFT JOIN `accounts` AS a ON b.acc_id = a.acc_id");
@@ -388,7 +419,7 @@ class global_class extends db_connect
 
     public function getBookingInformation($bookingId)
     {
-        $query = $this->conn->prepare("SELECT b.*, b.status AS booking_status,ra.*, r.origin, r.destination, a.name FROM `booking` AS b 
+        $query = $this->conn->prepare("SELECT b.*, b.status AS booking_status,ra.*, r.origin, r.destination, r.route_id,a.name FROM `booking` AS b 
                                        LEFT JOIN `routes_available` AS ra ON b.route_av_id = ra.route_av_id
                                        LEFT JOIN `routes` AS r ON ra.route_id = r.route_id
                                        LEFT JOIN `accounts` AS a ON b.acc_id = a.acc_id

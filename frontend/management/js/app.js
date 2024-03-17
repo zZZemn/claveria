@@ -214,5 +214,29 @@ $(document).ready(function () {
     });
   });
 
+  // --------------------------
+  $("#frmAddNewBooking").submit(function (e) {
+    e.preventDefault();
+
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response != "404") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Booking Success!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });
