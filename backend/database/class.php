@@ -449,4 +449,20 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+    public function checkBookingIfExpired()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `booking` WHERE `status` != 'Expired'");
+        $query->execute();
+        $notExpiredResult = $query->get_result();
+        while ($notExpiredRow = $notExpiredResult->fetch_assoc()) {
+            $bookingId = $notExpiredRow['booking_id'];
+            $today = new DateTime();
+            $expirationDate = new DateTime($notExpiredRow['booking_expiration']);
+            if ($expirationDate < $today) {
+                $updateStatusToExpired = $this->conn->prepare("UPDATE `booking` SET `status`='Expired' WHERE `booking_id` = '$bookingId'");
+                $updateStatusToExpired->execute();
+            }
+        }
+    }
 }

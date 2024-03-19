@@ -1,4 +1,5 @@
 <?php
+include("check-expiration.php");
 include("global-components/header.php");
 ?>
 <section class="backgound-image-section bg-dark">
