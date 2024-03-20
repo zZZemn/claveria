@@ -452,7 +452,7 @@ class global_class extends db_connect
 
     public function checkBookingIfExpired()
     {
-        $query = $this->conn->prepare("SELECT * FROM `booking` WHERE `status` != 'Expired'");
+        $query = $this->conn->prepare("SELECT * FROM `booking` WHERE `status` != 'Expired' AND `status` != 'Paid'");
         $query->execute();
         $notExpiredResult = $query->get_result();
         while ($notExpiredRow = $notExpiredResult->fetch_assoc()) {
