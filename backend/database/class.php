@@ -417,6 +417,15 @@ class global_class extends db_connect
         }
     }
 
+    public function getBookingAmount($bookingId)
+    {
+        $query = $this->conn->prepare("SELECT SUM(computed_fare) AS total_amount FROM booking_details WHERE `booking_id` = '$bookingId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function getBookingInformation($bookingId)
     {
         $query = $this->conn->prepare("SELECT b.*, b.status AS booking_status,ra.*, r.origin, r.destination, r.route_id,a.name FROM `booking` AS b 

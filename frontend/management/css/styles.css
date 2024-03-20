@@ -91,6 +91,12 @@ main {
   padding: 10px !important;
   text-align: center !important;
 }
+
+.booking-sales {
+  font-size: 15px;
+  position: sticky !important;
+  bottom: 0 !important;
+}
 /* booking */
 
 @media screen and (max-width: 900px) {

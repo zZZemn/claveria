@@ -23,15 +23,19 @@ $getBus = $db->getBus();
                     <th>Booking Date</th>
                     <th>Expiration Date</th>
                     <th>Booking Type</th>
+                    <th>Total</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
+                $sales = 0;
                 $getAllBookings = $db->getAllBookings();
                 while ($booking = $getAllBookings->fetch_assoc()) {
                     $getAccount = $db->checkGeneratedId('accounts', 'acc_id', $booking['acc_id']);
+                    $getTotal = $db->getBookingAmount($booking['booking_id'])->fetch_assoc();
+                    $sales += ($booking['status'] == 'Paid' ? $getTotal['total_amount'] : 0);
                     echo "<tr>
                             <td>" . $booking['booking_id'] . "</td>
                             <td>" . $booking['route_av_id'] . "</td>
@@ -39,10 +43,17 @@ $getBus = $db->getBus();
                             <td>" . $booking['booking_date'] . "</td>
                             <td>" . $booking['booking_expiration'] . "</td>
                             <td>" . $booking['booking_type'] . "</td>
-                            <td>" . $booking['status'] . "</td>
+                            <td>₱ " . $getTotal['total_amount'] . "</td>
+                            <td>" . ucfirst($booking['status']) . "</td>
                             <td><a href='booking-details.php?b_id=" . $booking['booking_id'] . "' class='btn btn-primary'>View</a></td>
                           </tr>";
                 }
+
+                $finalSales = '₱ ' . number_format($sales, 2);
+                echo "<tr class='booking-sales'>
+                        <td colspan='6' class='text-success'>Total Paid Bookings:</td>
+                        <td colspan='2' class='text-success'>" . $finalSales . "</td>
+                      <td>";
 
                 echo ($getAllBookings->num_rows < 1) ? '<tr><td colspan="8" class="text-center p-5">No booking found.</td></tr>' : '';
                 ?>
