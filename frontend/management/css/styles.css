@@ -99,6 +99,10 @@ main {
 }
 /* booking */
 
+.print-only {
+  display: none !important;
+}
+
 @media screen and (max-width: 900px) {
   main {
     width: 100vw;
@@ -111,5 +115,40 @@ main {
 
   #toggleSideBar {
     display: block;
+  }
+}
+
+@media print {
+  label {
+    font-size: 8px !important;
+  }
+
+  * {
+    font-size: 12px !important;
+  }
+
+  h3 {
+    font-size: 15px !important;
+  }
+  
+  .print-d-none {
+    display: none !important;
+  }
+
+  nav {
+    display: none !important;
+  }
+
+  .side-bar {
+    display: none !important;
+  }
+
+  main {
+    width: 100vw;
+    left: 0;
+  }
+
+  .print-only {
+    display: block !important;
   }
 }

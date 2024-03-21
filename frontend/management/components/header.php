@@ -41,11 +41,11 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
 <body>
     <div class="alert"></div>
     <nav class="d-flex justify-content-between align-items-center p-3">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center print-d-none">
             <button id="toggleSideBar" class="btn text-light"><i class="bi bi-list"></i></button>
             <a href="management.php"><img class="logo" src="../../assets/CBTIMS LOGO.png" alt="Logo"></a>
         </div>
-        <a href="../../logout.php" class="btn-logout text-light text-decoration-none"><i class="bi bi-box-arrow-left"></i> Log Out</a>
+        <a href="../../logout.php" class="btn-logout text-light text-decoration-none print-d-none"><i class="bi bi-box-arrow-left"></i> Log Out</a>
     </nav>
     <aside class="side-bar">
         <ul>

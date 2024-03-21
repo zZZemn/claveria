@@ -49,13 +49,35 @@ if (isset($_GET['b_id'])) {
 }
 ?>
 <div>
+    <div class="print-only">
+        <center>
+            <h3>Claveria Bus Inc.</h3>
+            <h6>Operated by Claveria Tours</h6>
+            <h6>Siam-Siam Kilkiling Claveria Cagayan</h6>
+        </center>
+        <div class="container d-flex justify-content-center">
+            <div class="">
+                <h6>TERMS & CONDITION:</h6>
+                <ul>
+                    <li>This Reservation Slip is non-refundable.</li>
+                    <li>Strictly no boarding/rebooking is allowed for lost reservation slip.</li>
+                    <li>Request for rebooking shall only be allowed once.</li>
+                    <li>Re-scheduling/Rebooking may be allowed only if the next reservation is not fully booked.</li>
+                    <li>All passengers are expected to board 15minutes before the scheduled time of departure.</li>
+                    <li>Always keep your Reservation Slip and/or Ticket while on board.</li>
+                    <li>Present your Reservation Slip and/or Ticket upon inspection.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="top-contents-container d-flex align-items-center justify-content-between">
-        <h2 id="page-title">Bookings Details</h2>
-        <div class="top-contents-btns-container d-flex align-items-center <?= ($bookingInfo['booking_status'] == 'Paid') ? 'd-none' : '' ?>">
-            <button type="button" class="btn btn-primary mx-1" id="MarkAsPaid" data-id="<?= $bookingId ?>">
+        <h2 id="page-title" class="print-d-none">Bookings Details</h2>
+        <div class="top-contents-btns-container d-flex align-items-center print-d-none">
+            <button type="button" class="btn btn-primary mx-1 <?= ($bookingInfo['booking_status'] == 'Paid') ? 'd-none' : '' ?>" id="MarkAsPaid" data-id="<?= $bookingId ?>">
                 <i class="bi bi-check2-all"></i>
                 Mark as Paid
             </button>
+            <button class="btn btn-primary" id="printBookingReceipt" onclick="window.print()">View Receipt</button>
         </div>
     </div>
     <div class="table-container">
@@ -107,7 +129,7 @@ if (isset($_GET['b_id'])) {
                 </div>
             </div>
         </div>
-        <div class="card container mt-3 <?= ($bookingInfo['booking_status'] == 'Paid') ? 'd-none' : '' ?>">
+        <div class="card container mt-3 <?= ($bookingInfo['booking_status'] == 'Paid') ? 'd-none' : '' ?> print-d-none">
             <h5 class="text-center mt-4">Book Here</h5>
             <hr>
             <div class="d-flex justify-content-center">
