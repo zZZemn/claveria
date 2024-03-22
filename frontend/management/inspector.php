@@ -8,7 +8,7 @@ $getInspectors = $db->getUsers('inspector');
     <div class="top-contents-container d-flex align-items-center justify-content-between">
         <h2 id="page-title">Inspectors</h2>
         <div class="top-contents-btns-container d-flex align-items-center">
-            <button type="button" class="btn btn-primary mx-1" data-toggle="modal" data-target="#NewInspector">
+            <button type="button" class="btn btn-primary mx-1" data-toggle="modal" data-target="#AddInspector">
                 <i class="bi bi-plus-lg"></i> New Inspector
             </button>
         </div>

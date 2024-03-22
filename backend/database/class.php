@@ -111,6 +111,25 @@ class global_class extends db_connect
         }
     }
 
+    public function addInspector($post)
+    {
+        $accountId = $this->generateId("ACC", 8);
+        while ($this->checkGeneratedId("accounts", "acc_id", $accountId)->num_rows > 0) {
+            $accountId = $this->generateId("ACC", 8);
+        }
+
+        if ($this->checkGeneratedId('accounts', 'username', $post['username'])->num_rows > 0) {
+            return 404;
+        }
+
+        $query = $this->conn->prepare("INSERT INTO `accounts`(`acc_id`, `acc_type`, `username`, `password`, `name`, `address`, `email`, `contact_no`, `valid_id`, `status`) VALUES ('$accountId','inspector','" . $post['username'] . "','" . $post['password'] . "','" . $post['name'] . "','" . $post['address'] . "','" . $post['email'] . "','" . $post['contact_no'] . "','','active')");
+        if ($query->execute()) {
+            return 200;
+        } else {
+            return "Hoyy";
+        }
+    }
+
     public function getUsers($accType)
     {
         $query = $this->conn->prepare("SELECT * FROM `accounts` WHERE `acc_type` = '$accType'");

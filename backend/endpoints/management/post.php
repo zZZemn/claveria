@@ -24,6 +24,8 @@ if (isset($_POST['submitType'])) {
         echo $db->walkInBooking($_POST);
     } elseif ($submitType == 'AddBook') {
         echo $db->walkInAddBooking($_POST);
+    } elseif ($submitType == 'AddInspector') {
+        echo $db->addInspector($_POST);
     }
 } else {
     echo 'hoy';

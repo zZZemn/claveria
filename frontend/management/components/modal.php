@@ -115,3 +115,51 @@
     </div>
 </div>
 <!-- End of Add Bus -->
+
+<!-- Add Inspector -->
+<div class="modal fade" id="AddInspector" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Inspector</h5>
+                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddInspector">
+                    <div class="input-container">
+                        <label for="addInspectorUsername">Username</label>
+                        <input type="text" id="addInspectorUsername" name="username" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addInspectorPassword">Password</label>
+                        <input type="password" id="addInspectorPassword" name="password" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addInspectorName">Name</label>
+                        <input type="text" id="addInspectorName" name="name" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addInspectorAddress">Address</label>
+                        <input type="text" id="addInspectorAddress" name="address" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addInspectorEmail">Email</label>
+                        <input type="email" id="addInspectorEmail" name="email" class="form-control" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="addInspectorContactNo">Contact No</label>
+                        <input type="number" id="addInspectorContactNo" name="contact_no" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="submitType" value="AddInspector">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="Submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Add Inspector -->

@@ -238,5 +238,31 @@ $(document).ready(function () {
     });
   });
 
+  // --------------------------
+  $("#frmAddInspector").submit(function (e) {
+    e.preventDefault();
+
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Inspector Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else if (response == "404") {
+          showAlert("alert-danger", "Username is already existing.");
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });
