@@ -34,6 +34,7 @@ include('components/header.php');
                                 <td>" . $booking['status'] . "</td>
                                 <td>
                                     <a href='book.php?ra_sched_id=" . $booking['route_av_id'] . "' class='btn btn-primary'>View</a>
+                                    <a href='ticket-printing.php?b_id=" . $booking['booking_id'] . "' class='btn btn-primary'>Booking Details</a>
                                 </td>
                             </tr>
                             ";

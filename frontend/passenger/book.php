@@ -203,6 +203,7 @@ if (isset($_GET['ra_sched_id'])) {
         </div>
     </div>
 </div>
+
 </div>
 
 <!-- Modals -->

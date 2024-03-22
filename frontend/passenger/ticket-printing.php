@@ -1,0 +1,160 @@
+<?php
+include('components/header.php');
+$getRoutesList = $db->getRouteList();
+$getBus = $db->getBus();
+
+function checkSeat($db, $schedId, $seat)
+{
+    $checkSeat = $db->checkSeatAvailabilily($schedId, $seat);
+    if ($checkSeat->num_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+if (isset($_GET['b_id'])) {
+    $bookingId = $_GET['b_id'];
+    $getBookingInfo = $db->getBookingInformation($bookingId);
+    if ($getBookingInfo->num_rows > 0) {
+        $bookingInfo = $getBookingInfo->fetch_assoc();
+        $getBookingDetails = $db->getBookingDetails($bookingId);
+        $getAccount = $db->checkGeneratedId('accounts', 'acc_id', $bookingInfo['acc_id']);
+
+
+        $getSubRoute = $db->checkGeneratedId('sub_routes', 'route_id', $bookingInfo['route_id']);
+        $getDiscount = $db->getDiscounts();
+
+        $seats = [
+            "D1W", "D2W", "C2W", "C1W",
+            "D3W", "D4A", "C4A", "C3W",
+            "D5W", "D6A", "C6A", "C5W",
+            "D7W", "D8A", "C8A", "C7W",
+            "D9W", "D10A", "C10A", "C9W",
+            "D11W", "D12A", "C12A", "C11W",
+            "D13W", "D14A", "C14A", "C13W",
+            "D15W", "D16A", "C16A", "C15W",
+            "D17W", "D18A", "C18A", "C17W",
+            "D19W", "D20A", "B21C", "C20A", "C19W"
+        ];
+
+        $schedId = $bookingInfo['route_av_id'];
+    } else {
+        // header('Location: booking.php');
+        // exit();
+        echo "1";
+    }
+} else {
+    // header('Location: booking.php');
+    // exit();
+    echo "2";
+}
+?>
+<div>
+    <div class="print-only">
+        <center>
+            <h3>Claveria Bus Inc.</h3>
+            <h6>Operated by Claveria Tours</h6>
+            <h6>Siam-Siam Kilkiling Claveria Cagayan</h6>
+        </center>
+        <div class="container d-flex justify-content-center">
+            <div class="">
+                <h6>TERMS & CONDITION:</h6>
+                <ul>
+                    <li>This Reservation Slip is non-refundable.</li>
+                    <li>Strictly no boarding/rebooking is allowed for lost reservation slip.</li>
+                    <li>Request for rebooking shall only be allowed once.</li>
+                    <li>Re-scheduling/Rebooking may be allowed only if the next reservation is not fully booked.</li>
+                    <li>All passengers are expected to board 15minutes before the scheduled time of departure.</li>
+                    <li>Always keep your Reservation Slip and/or Ticket while on board.</li>
+                    <li>Present your Reservation Slip and/or Ticket upon inspection.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="top-contents-container d-flex align-items-center justify-content-between">
+        <h2 id="page-title" class="print-d-none">Bookings Details</h2>
+        <div class="top-contents-btns-container d-flex align-items-center print-d-none">
+            <button class="btn btn-primary" id="printBookingReceipt" onclick="window.print()">View Receipt</button>
+        </div>
+    </div>
+    <div class="table-container">
+        <div class="container card p-3 mt-2">
+            <h5 class="text-center mt-1">Booking Details</h5>
+            <hr>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="input-container">
+                    <label>Booking ID</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['booking_id'] ?>" readonly>
+                </div>
+                <div class="input-container">
+                    <label>Booking Type</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['booking_type'] ?>" readonly>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="input-container">
+                    <label>Booking Date</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['booking_date'] ?>" readonly>
+                </div>
+                <div class="input-container">
+                    <label>Expiration Date</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['booking_expiration'] ?>" readonly>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="input-container">
+                    <label>Book By</label>
+                    <input type="text" class="form-control" value="<?= ($getAccount->num_rows > 0 ? $bookingInfo['name'] : $bookingInfo['acc_id']) ?>" readonly>
+                </div>
+                <div class="input-container">
+                    <label>Status</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['booking_status'] ?>" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="container card p-3 mt-3">
+            <h5 class="text-center mt-1">Route Details</h5>
+            <hr>
+            <div>
+                <div class="input-container">
+                    <label>Departure Date</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['date_departure'] ?>" readonly>
+                </div>
+                <div class="input-container">
+                    <label>Arrival Date</label>
+                    <input type="text" class="form-control" value="<?= $bookingInfo['date_arrival'] ?>" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="card container mt-3">
+            <h5 class="text-center mt-4">Fare</h5>
+            <hr>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Route</th>
+                        <th>Discount</th>
+                        <th>Seat No.</th>
+                        <th>Fare</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    while ($bookingDetail = $getBookingDetails->fetch_assoc()) {
+                        echo "<tr>
+                                <td>" . $bookingDetail['origin'] . " To " . $bookingDetail['destination'] .  "</td>
+                                <td>" . ($bookingDetail['discount_id'] != ' None' ? $bookingDetail['discount_type'] : 'None') . "</td>
+                                <td>" . $bookingDetail['seat_no'] . "</td>
+                                <td>" . $bookingDetail['computed_fare'] . "</td>
+                              </tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<?php
+include('components/footer.php');
+?>

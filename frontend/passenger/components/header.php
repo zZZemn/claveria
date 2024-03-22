@@ -38,9 +38,9 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
     <nav class="d-flex justify-content-between align-items-center p-3">
         <div class="d-flex align-items-center">
             <button id="toggleSideBar" class="btn text-light"><i class="bi bi-list"></i></button>
-            <a href="index.php"><img class="logo" src="../../assets/CBTIMS LOGO.png" alt="Logo"></a>
+            <a href="index.php" class="print-d-none"><img class="logo" src="../../assets/CBTIMS LOGO.png" alt="Logo"></a>
         </div>
-        <a href="../../logout.php" class="btn-logout text-light text-decoration-none"><i class="bi bi-box-arrow-left"></i> Log Out</a>
+        <a href="../../logout.php" class="btn-logout text-light text-decoration-none print-d-none"><i class="bi bi-box-arrow-left"></i> Log Out</a>
     </nav>
     <aside class="side-bar">
         <ul>
