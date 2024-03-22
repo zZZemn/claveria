@@ -93,9 +93,7 @@ $(document).ready(function () {
         success: function (response) {
           if (response == "200") {
             showAlert("alert-success", "Login Success!");
-            setTimeout(() => {
-              window.location.href = "login-success.php";
-            }, 2000);
+            window.location.href = "login-success.php";
           } else {
             showAlert("alert-danger", "Incorrect Username or Password!");
           }
