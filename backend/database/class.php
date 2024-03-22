@@ -111,6 +111,15 @@ class global_class extends db_connect
         }
     }
 
+    public function getUsers($accType)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `accounts` WHERE `acc_type` = '$accType'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     // routes
     public function getRouteList()
     {

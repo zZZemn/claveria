@@ -54,7 +54,7 @@ if (isset($_SESSION['id'], $_SESSION['acc_type'])) {
             <li><a href="routes.php" id="nav-routes"><i class="bi bi-geo-fill"></i> Routes</a></li>
             <li><a href="bus.php" id="nav-bus"><i class="bi bi-bus-front"></i> Bus</a></li>
             <li><a href="announcement.php" id="nav-announcement"><i class="bi bi-megaphone"></i> Announcements</a></li>
-            <li><a href="#" id="nav-sales-report"><i class="bi bi-receipt"></i> Sales Report</a></li>
+            <li><a href="inspector.php" id="nav-inspector"><i class="bi bi-receipt"></i> Inspector</a></li>
         </ul>
     </aside>
     <main class="p-3">
