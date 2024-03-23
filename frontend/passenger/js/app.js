@@ -120,7 +120,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "../../backend/endpoints/passenger/post.php",
+      url: "../../backend/database/book.php",
       data: formData,
       contentType: false,
       processData: false,

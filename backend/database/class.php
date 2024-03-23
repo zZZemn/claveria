@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 include('db.php');
 date_default_timezone_set('Asia/Manila');
 
+
 class global_class extends db_connect
 {
     public function __construct()
@@ -294,12 +295,14 @@ class global_class extends db_connect
         }
     }
 
-    public function book($accId, $post)
+    /*public function book($accId, $post)
     {
         $bookingDate = new DateTime();
         $expirationDate = clone $bookingDate;
         $expirationDate->add(new DateInterval('PT24H'));;
 
+
+        // Generate ID
         $bookingId = $this->generateId("BOOKING", 8);
         while ($this->checkGeneratedId("booking", "booking_id", $bookingId)->num_rows > 0) {
             $bookingId = $this->generateId("BOOKING", 8);
@@ -309,6 +312,7 @@ class global_class extends db_connect
         while ($this->checkGeneratedId("booking_details", "bd_id", $bookingDetailsId)->num_rows > 0) {
             $bookingDetailsId = $this->generateId("BD", 10);
         }
+        // End of Generate ID
 
         $getSubroute = $this->checkGeneratedId("sub_routes", "sr_id", $post['subRoute']);
         $subRoute = $getSubroute->fetch_assoc();
@@ -321,11 +325,19 @@ class global_class extends db_connect
             $discountPercentage = 0;
         }
 
+        // User Details
+        $getUser = $this->checkGeneratedId("accounts", "acc_id", $accId);
+        $userDetails = $getUser->fetch_assoc();
+        $userEmail = $userDetails['email'];
+        $userName = $userDetails['name'];
+        // End of User Details
+
         // Computation;
         $fare = $subRoute['fare'];
 
         $computedDiscount = $fare * $discountPercentage;
         $computedFare = $fare - $computedDiscount;
+        // End of Computation
 
         $checkPendingBooking = $this->checkPendingBooking($accId);
         if ($checkPendingBooking->num_rows > 0) {
@@ -341,6 +353,10 @@ class global_class extends db_connect
                 return 404;
             }
         } else {
+            // Email sending
+
+            // End of email sending
+
             $insertBooking = $this->conn->prepare("INSERT INTO `booking`(`booking_id`, `route_av_id`, `acc_id`, `booking_date`, `booking_expiration`, `booking_type`, `status`) 
                                                                     VALUES ('$bookingId','" . $post['routeAvId'] . "','$accId','" . $bookingDate->format('Y-m-d H:i:s') . "','" . $expirationDate->format('Y-m-d H:i:s') . "','online','pending')");
 
@@ -353,7 +369,7 @@ class global_class extends db_connect
                 return 404;
             }
         }
-    }
+    }*/
 
     public function walkInBooking($post)
     {
