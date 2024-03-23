@@ -43,7 +43,9 @@ $getBus = $db->getBus();
                     <td>" . $route['added_passenger'] . "</td>
                     <td>" . $route['status'] . "</td>
                     <td>
-                        <a href='book.php?ra_sched_id=" . $route['route_av_id'] . "' class='btn btn-primary'><i class='bi bi-plus-lg'></i> Add Passenger</a>
+                        <button class='btn btn-primary btn-add-passenger' data-id='" . $route['route_av_id'] . "'>
+                            <i class='bi bi-plus-lg'></i> Add Passenger
+                        </button>
                     </td>
                 </tr>
                 ";
@@ -57,8 +59,34 @@ $getBus = $db->getBus();
 </div>
 
 <!-- Modals -->
-
+<div class="modal fade" id="AddPassenger" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Passenger to <span id="addPassengerRouteId"></span></h5>
+                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddInspector">
+                    <div class="input-container">
+                        <label for="numberOfPassenger">Number of Added Passenger</label>
+                        <input type="number" id="numberOfPassenger" name="addedPassenger" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="submitType" value="AddPassenger">
+                        <input type="hidden" name="subRouteId" id="subRouteId" value="">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="Submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- End of Modals -->
+
 <?php
 include('components/footer.php');
 ?>

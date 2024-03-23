@@ -201,6 +201,14 @@ class global_class extends db_connect
         return "asd";
     }
 
+    public function addPassenger($post)
+    {
+        $query = $this->conn->prepare("UPDATE `routes_available` SET `added_passenger`= added_passenger + '" . $post['addedPassenger'] . "' WHERE `route_av_id` = '" . $post['subRouteId'] . "'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
     // Bus
     public function getBus()
     {

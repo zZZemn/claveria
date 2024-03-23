@@ -33,6 +33,35 @@ $(document).ready(function () {
     checkWindowSize();
   });
 
+  $(".btn-add-passenger").click(function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $("#addPassengerRouteId").text(id);
+    $("#subRouteId").val(id);
+    $("#AddPassenger").modal("show");
+  });
+
+  $("#frmAddInspector").submit(function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/inspector/post.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Passenger Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
 
   checkWindowSize();
 });
