@@ -199,7 +199,7 @@ class global_class extends db_connect
         if ($query->execute()) {
             return 200;
         }
-        return "asd";
+        return "asds";
     }
 
     public function addPassenger($post)
