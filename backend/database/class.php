@@ -210,6 +210,18 @@ class global_class extends db_connect
         }
     }
 
+    public function getComputedSales($routeAvId)
+    {
+        $query = $this->conn->prepare("SELECT b.booking_id, SUM(bd.computed_fare) AS amount
+                                       FROM booking_details AS bd
+                                       LEFT JOIN booking AS b ON b.booking_id = bd.booking_id
+                                       WHERE b.route_av_id = '$routeAvId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     // Bus
     public function getBus()
     {
