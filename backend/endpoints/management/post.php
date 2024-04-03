@@ -17,7 +17,7 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'AddBus') {
         echo $db->addBus($_POST['plateNumber']);
     } elseif ($submitType == 'AddAnnouncement') {
-        echo $db->addAnnouncement($_POST);
+        echo $db->addAnnouncement($_FILES['announcement']);
     } elseif ($submitType == 'MarkAsPaid') {
         echo $db->markAsPaid($_POST['bookingId']);
     } elseif ($submitType == 'Book') {

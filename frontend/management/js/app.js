@@ -144,13 +144,15 @@ $(document).ready(function () {
     e.preventDefault();
     // var title = $("#addAnnouncementTitle").val();
     // var text = $("#addAnnouncementText").val();
-
-    var formData = $(this).serialize();
+    var formData = new FormData($(this)[0]);
     $.ajax({
       type: "POST",
       url: "../../backend/endpoints/management/post.php",
       data: formData,
+      contentType: false,
+      processData: false,
       success: function (response) {
+        console.log(response);
         if (response == "200") {
           $(".modal").modal("hide");
           showAlert("alert-success", "Announcement Added!");

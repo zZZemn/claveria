@@ -260,19 +260,37 @@ class global_class extends db_connect
         }
     }
 
-    public function addAnnouncement($post)
+    public function addAnnouncement($file)
     {
         $id = $this->generateId('ANCMNT', 4);
         while ($this->checkGeneratedId('announ', 'announ_id', $id)->num_rows > 0) {
             $id = $this->generateId('ANCMNT', 4);
         }
 
-        $query = $this->conn->prepare("INSERT INTO `announ`(`announ_id`, `title`, `text`, `status`) 
-                                                    VALUES ('$id','" . $post['title'] . "','" . $post['text'] . "','1')");
-        if ($query->execute()) {
-            return 200;
+        if (!empty($_FILES['announcement']['size'])) {
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $destinationDirectory =  __DIR__ . '../../announcement/';
+            $newFileName = $id . '.' . $extension;
+            $destination = $destinationDirectory . $newFileName;
+            if (is_uploaded_file($file_tmp)) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                $query = $this->conn->prepare("INSERT INTO `announ`(`announ_id`, `img`,`title`, `text`, `status`) 
+                                                    VALUES ('$id','$newFileName','', '','1')");
+                if ($query->execute()) {
+                    return 200;
+                } else {
+                    return $query;
+                }
+            } else {
+                return "Error: File upload failed or file not found.";
+            }
+        } else {
+            return 'File is empty';
         }
     }
+}
 
     // Discounts
     public function getDiscounts()

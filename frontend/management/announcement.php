@@ -19,18 +19,16 @@ $getAnnouncement = $db->getAnnouncement();
             <thead>
                 <tr>
                     <th>Announcement&nbspID</th>
-                    <th>Title</th>
-                    <th>Text</th>
+                    <th>Announcement</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 while ($ann = $getAnnouncement->fetch_assoc()) {
                     echo "<tr>
-                        <td>" . $ann['announ_id'] . "</td>
-                        <td>" . $ann['title'] . "</td>
-                        <td>" . $ann['text'] . "</td>
-                        </tr>";
+                            <td>" . $ann['announ_id'] . "</td>
+                            <td><img style='height: 200px;' src='../../backend/announcement/" . $ann['img'] . "'></td>
+                          </tr>";
                 }
 
                 echo ($getAnnouncement->num_rows < 1) ? '<tr><td colspan="3" class="text-center p-5">No announcement found.</td></tr>' : '';
@@ -53,12 +51,8 @@ $getAnnouncement = $db->getAnnouncement();
             <div class="modal-body">
                 <form id="frmAddAnnouncement">
                     <div class="input-container">
-                        <label for="addAnnouncementTitle">Title</label>
-                        <input type="text" id="addAnnouncementTitle" name="title" class="form-control" required>
-                    </div>
-                    <div class="input-container">
-                        <label for="addAnnouncementText">Text</label>
-                        <textarea id="addAnnouncementText" name="text" class="form-control" required></textarea>
+                        <label for="addAnnouncement">Upload Announcement</label>
+                        <input type="file" id="addAnnouncement" name="announcement" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="submitType" value="AddAnnouncement">
