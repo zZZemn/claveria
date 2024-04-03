@@ -26,6 +26,12 @@ if (isset($_POST['submitType'])) {
         echo $db->walkInAddBooking($_POST);
     } elseif ($submitType == 'AddInspector') {
         echo $db->addInspector($_POST);
+    } elseif ($submitType == 'cancelBooking') {
+        echo $db->cancelBooking($_POST['id']);
+    } elseif ($submitType == 'deletelBooking') {
+        echo $db->deleteBooking($_POST['id']);
+    } elseif ($submitType == 'EditBooking') {
+        echo $db->editBooking($_POST);
     }
 } else {
     echo 'hoy';

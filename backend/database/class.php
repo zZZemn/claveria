@@ -276,21 +276,21 @@ class global_class extends db_connect
             $destination = $destinationDirectory . $newFileName;
             if (is_uploaded_file($file_tmp)) {
                 if (move_uploaded_file($file_tmp, $destination)) {
-                $query = $this->conn->prepare("INSERT INTO `announ`(`announ_id`, `img`,`title`, `text`, `status`) 
+                    $query = $this->conn->prepare("INSERT INTO `announ`(`announ_id`, `img`,`title`, `text`, `status`) 
                                                     VALUES ('$id','$newFileName','', '','1')");
-                if ($query->execute()) {
-                    return 200;
+                    if ($query->execute()) {
+                        return 200;
+                    } else {
+                        return $query;
+                    }
                 } else {
-                    return $query;
+                    return "Error: File upload failed or file not found.";
                 }
             } else {
-                return "Error: File upload failed or file not found.";
+                return 'File is empty';
             }
-        } else {
-            return 'File is empty';
         }
     }
-}
 
     // Discounts
     public function getDiscounts()
@@ -541,6 +541,14 @@ class global_class extends db_connect
         }
     }
 
+    public function cancelBooking($bookingId)
+    {
+        $query = $this->conn->prepare("UPDATE `booking` SET `status`='Cancelled' WHERE `booking_id` = '$bookingId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
     public function checkBookingIfExpired()
     {
         $query = $this->conn->prepare("SELECT * FROM `booking` WHERE `status` != 'Expired' AND `status` != 'Paid'");
@@ -554,6 +562,39 @@ class global_class extends db_connect
                 $updateStatusToExpired = $this->conn->prepare("UPDATE `booking` SET `status`='Expired' WHERE `booking_id` = '$bookingId'");
                 $updateStatusToExpired->execute();
             }
+        }
+    }
+
+    public function deleteBooking($bdId)
+    {
+        $query = $this->conn->prepare("DELETE FROM `booking_details` WHERE `bd_id` = '$bdId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function editBooking($post)
+    {
+        $getSubroute = $this->checkGeneratedId("sub_routes", "sr_id", $post['subRoute']);
+        $subRoute = $getSubroute->fetch_assoc();
+
+        $getDiscount = $this->checkGeneratedId("discounts", "discount_id", $post['discount']);
+        if ($getDiscount->num_rows > 0) {
+            $discount = $getDiscount->fetch_assoc();
+            $discountPercentage = $discount['discount_percentage'];
+        } else {
+            $discountPercentage = 0;
+        }
+
+        // Computation;
+        $fare = $subRoute['fare'];
+
+        $computedDiscount = $fare * $discountPercentage;
+        $computedFare = $fare - $computedDiscount;
+
+        $query = $this->conn->prepare("UPDATE `booking_details` SET `sr_id`='" . $post['subRoute'] . "',`discount_id`='" . $post['discount'] . "',`seat_no`='" . $post['seat'] . "',`computed_fare`='" . $computedFare . "' WHERE `bd_id` = '" . $post['bdId'] . "'");
+        if ($query->execute()) {
+            return 200;
         }
     }
 }

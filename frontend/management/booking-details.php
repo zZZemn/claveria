@@ -73,6 +73,9 @@ if (isset($_GET['b_id'])) {
     <div class="top-contents-container d-flex align-items-center justify-content-between">
         <h2 id="page-title" class="print-d-none">Bookings Details</h2>
         <div class="top-contents-btns-container d-flex align-items-center print-d-none">
+            <button type="button" class="btn btn-dark" id="cancelBooking" data-id="<?= $bookingId ?>">
+                Cancel Booking
+            </button>
             <button type="button" class="btn btn-primary mx-1 <?= ($bookingInfo['booking_status'] == 'Paid') ? 'd-none' : '' ?>" id="MarkAsPaid" data-id="<?= $bookingId ?>">
                 <i class="bi bi-check2-all"></i>
                 Mark as Paid
@@ -195,6 +198,7 @@ if (isset($_GET['b_id'])) {
                         <th>Discount</th>
                         <th>Seat No.</th>
                         <th>Fare</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,11 +209,83 @@ if (isset($_GET['b_id'])) {
                                 <td>" . ($bookingDetail['discount_id'] != ' None' ? $bookingDetail['discount_type'] : 'None') . "</td>
                                 <td>" . $bookingDetail['seat_no'] . "</td>
                                 <td>" . $bookingDetail['computed_fare'] . "</td>
+                                <td>
+                                    <button class='btn btn-danger btnDeleteBooking' data-id='" . $bookingDetail['bd_id'] . "'>Delete</button>
+                                    <button class='btn btn-dark btnEditBooking' 
+                                    data-id='" . $bookingDetail['bd_id'] . "'
+                                    data-sr_id='" . $bookingDetail['sr_id'] . "'
+                                    data-discount_id='" . $bookingDetail['discount_id'] . "'
+                                    data-seat_no='" . $bookingDetail['seat_no'] . "'
+                                    '>Edit</button>
+                                </td>
                               </tr>";
                     }
                     ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditBooking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Booking</h5>
+                <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmEditBooking">
+                    <div class="input-container">
+                        <label for="selectRoute">Pick Route</label>
+                        <select id="editSelectRoute" class="form-control" name="subRoute" required>
+                            <option></option>
+                            <?php
+                            $getSubRoute = $db->checkGeneratedId('sub_routes', 'route_id', $bookingInfo['route_id']);
+                            while ($subRoute = $getSubRoute->fetch_assoc()) {
+                                echo "<option value='" . $subRoute['sr_id'] . "'>" . $subRoute['origin'] . ' To ' . $subRoute['destination'] . ' (' . $subRoute['fare'] . ")</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <label for="selectDiscount">Discount</label>
+                        <select id="editSelectDiscount" class="form-control" name="discount" required>
+                            <option value=" None">None</option>
+                            <?php
+                            $getDiscount = $db->getDiscounts();
+                            while ($discount = $getDiscount->fetch_assoc()) {
+                            ?>
+                                <option value="<?= $discount['discount_id'] ?>"><?= $discount['discount_type'] ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <label for="selectSeat"> Select Seat </label>
+                        <select id="editSelectSeat" class="form-control" name="seat" required>
+                            <option value=""></option>
+                            <?php
+                            foreach ($seats as $seat) {
+                                $checkIfSeatIsOccupied = $db->checkSeatAvailabilily($schedId, $seat);
+                                if ($checkIfSeatIsOccupied->num_rows < 1) {
+                                    echo "<option value=" . $seat . ">" . $seat . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="bdId" id="editBookingId" value="">
+                        <input type="hidden" name="submitType" value="EditBooking">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="Submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
