@@ -145,5 +145,87 @@ $(document).ready(function () {
     });
   });
 
+  $(".btnDelete").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/passenger/post.php",
+      data: {
+        submitType: "DeleteBooking",
+        id: $(this).data("id"),
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          showAlert("alert-success", "Booking Deleted!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  $(".btnEditBooking").click(function (e) {
+    e.preventDefault();
+    console.log($(this).data("sr_id"));
+    console.log($(this).data("discount_id"));
+    console.log($(this).data("seat_no"));
+
+    $("#editSelectRoute").val($(this).data("sr_id"));
+    $("#editSelectDiscount").val($(this).data("discount_id"));
+    $("#editSelectSeat").val($(this).data("seat_no"));
+    $("#editBookingId").val($(this).data("id"));
+
+    $("#EditBooking").modal("show");
+  });
+
+  $("#frmEditBooking").submit(function (e) {
+    e.preventDefault();
+
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response != "404") {
+          $(".modal").modal("hide");
+          showAlert("alert-success", "Booking Edited!");
+          window.location.reload();
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
+  $("#cancelBooking").click(function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/management/post.php",
+      data: {
+        submitType: "cancelBooking",
+        id: id,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          showAlert("alert-success", "Booking Cancelled!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert("alert-danger", "Something Went Wrong.");
+        }
+      },
+    });
+  });
+
   checkWindowSize();
 });

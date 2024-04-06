@@ -13,6 +13,8 @@ if (isset($_POST['submitType'])) {
         echo $db->editProfile($_SESSION['id'], $_POST);
     } elseif ($submitType == 'Book') {
         echo $book->book($_SESSION['id'], $_POST);
+    } elseif ($submitType == 'DeleteBooking') {
+        echo $db->deleteBooking($_POST['id']);
     }
 } else {
     echo 'hoy';

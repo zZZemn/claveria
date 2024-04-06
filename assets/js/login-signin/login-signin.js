@@ -1,11 +1,4 @@
 $(document).ready(function () {
-  const showAlert = (alertType, message) => {
-    $(".alert").addClass(alertType).text(message);
-    setTimeout(() => {
-      $(".alert").removeClass(alertType).text("");
-    }, 2000);
-  };
-
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -17,9 +10,9 @@ $(document).ready(function () {
   const validateSignUp = (
     email,
     contactNo,
+    address,
     username,
     password,
-    address,
     validId
   ) => {
     var numberOfInvalid = 0;
@@ -35,6 +28,12 @@ $(document).ready(function () {
       $("#sContactNo").addClass("is-invalid");
       numberOfInvalid++;
     }
+    
+    // Validate Address
+    if (address.trim() === "" || address.length < 15) {
+      $("#sAddress").addClass("is-invalid");
+      numberOfInvalid++;
+    }
 
     // Validate Username
     if (/\s/.test(username) || username.length < 7) {
@@ -45,12 +44,6 @@ $(document).ready(function () {
     // Validate Password
     if (password.trim() === "" || password.length < 7) {
       $("#sPassword").addClass("is-invalid");
-      numberOfInvalid++;
-    }
-
-    // Validate Address
-    if (address.trim() === "" || address.length < 15) {
-      $("#sAddress").addClass("is-invalid");
       numberOfInvalid++;
     }
 
@@ -92,10 +85,21 @@ $(document).ready(function () {
         },
         success: function (response) {
           if (response == "200") {
-            showAlert("alert-success", "Login Success!");
-            window.location.href = "login-success.php";
+            Swal.fire({
+              icon: 'success',
+              title: 'Login Success!',
+              showConfirmButton: false,
+              timer: 2000
+            }).then(() => {
+              window.location.href = "login-success.php";
+            });
           } else {
-            showAlert("alert-danger", "Incorrect Username or Password!");
+            Swal.fire({
+              icon: 'error',
+              title: 'Incorrect Username or Password!',
+              showConfirmButton: false,
+              timer: 2000
+            });
           }
         },
         error: function (error) {
@@ -105,7 +109,6 @@ $(document).ready(function () {
     }
   });
 
-  //---------------------------
   $("#frmSignin").submit(function (e) {
     e.preventDefault();
 
@@ -122,7 +125,7 @@ $(document).ready(function () {
     var formData = new FormData($(this)[0]);
 
     if (
-      validateSignUp(email, contactNo, username, password, address, validId)
+      validateSignUp(email, contactNo, address, username, password, validId)
     ) {
       $.ajax({
         type: "POST",
@@ -133,20 +136,39 @@ $(document).ready(function () {
         success: function (response) {
           console.log(response);
           if (response == "200") {
-            showAlert("alert-success", "Sign In Success!");
-            setTimeout(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Sign In Success!',
+              showConfirmButton: false,
+              timer: 2000
+            }).then(() => {
               window.location.href = "login.php";
-            }, 2000);
+            });
           } else if (response == "404") {
             $("#sUsername").addClass("is-invalid");
-            showAlert("alert-danger", "Username si already exist!");
+            Swal.fire({
+              icon: 'error',
+              title: 'Username already exists!',
+              showConfirmButton: false,
+              timer: 2000
+            });
           } else {
-            showAlert("alert-danger", "Something Went Wrong!");
+            Swal.fire({
+              icon: 'error',
+              title: 'Something Went Wrong!',
+              showConfirmButton: false,
+              timer: 2000
+            });
           }
         },
       });
     } else {
-      showAlert("alert-danger", "Invalid Sign in!");
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Sign In!',
+        showConfirmButton: false,
+        timer: 2000
+      });
     }
   });
 });
